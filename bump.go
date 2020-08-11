@@ -134,13 +134,13 @@ func main() {
 	if shouldTag {
 		_, err = utils.SetTag(r, bumped.String())
 		checkIfError(err)
-		log.Printf("Tagging version: %s \n", bumped.String())
+		fmt.Println(fmt.Sprintf("Tagging version: %s \n", bumped.String()))
 
     shouldPush := requestPush(bumped)
     checkIfError(err)
 
     if (shouldPush) {
-		  log.Printf("Pushing version: %s \n", bumped.String())
+		  fmt.Println(fmt.Sprintf("Pushing version: %s \n", bumped.String()))
       err = utils.Push(r, bumped.String())
       checkIfError(err)
     }
