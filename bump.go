@@ -25,17 +25,22 @@ func prompt(msg string) (string) {
   }
 }
 
+func defaultYes(input string) bool {
+  return input == "y" || input == ""
+}
+
 func requestTag(latest semver.Version) (bool) {
   msg := fmt.Sprintf("Would you like to tag %s - [Y/n]", latest.String())
   input := strings.ToLower(prompt(msg))
-  return input == "y"
+  return defaultYes(input) 
 }
 
 func requestPush(latest semver.Version) (bool) {
   msg := fmt.Sprintf("Would you like to push %s - [Y/n]", latest.String())
   input := strings.ToLower(prompt(msg))
 
-  return input == "y"
+
+  return defaultYes(input) 
 }
 
 func requestPromote(latest semver.Version) (utils.Level) {
@@ -50,9 +55,9 @@ func requestPromote(latest semver.Version) (utils.Level) {
 
 
 func requestCandidate(latest semver.Version) (utils.Level) {
-  msg := fmt.Sprintf("Current tag: %s - would you release as a candidate first [y/n]", latest.String())
+  msg := fmt.Sprintf("Current tag: %s - would you release as a candidate first [Y/n]", latest.String())
   input := strings.ToLower(prompt(msg))
-  if (input == "y") {
+  if (defaultYes(input)) {
     level := utils.Level("rc")
     return level
   }
@@ -60,8 +65,11 @@ func requestCandidate(latest semver.Version) (utils.Level) {
 }
 
 func requestBump(latest semver.Version) (utils.Level) {
-  msg := fmt.Sprintf("Current tag: %s - how would you like to bump [major/minor/patch]", latest.String())
+  msg := fmt.Sprintf("Current tag: %s - how would you like to bump [major/minor/PATCH]", latest.String())
   input := strings.ToLower(prompt(msg))
+  if input == "" {
+    return utils.Level("patch")
+  }
   return utils.Level(input)
 }
 
