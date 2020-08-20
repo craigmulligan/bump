@@ -32,7 +32,7 @@ func defaultYes(input string) bool {
 func requestTag(latest semver.Version) (bool) {
   msg := fmt.Sprintf("Would you like to tag %s - [Y/n]", latest.String())
   input := strings.ToLower(prompt(msg))
-  return defaultYes(input) 
+  return defaultYes(input)
 }
 
 func requestPush(latest semver.Version) (bool) {
@@ -40,7 +40,7 @@ func requestPush(latest semver.Version) (bool) {
   input := strings.ToLower(prompt(msg))
 
 
-  return defaultYes(input) 
+  return defaultYes(input)
 }
 
 func requestPromote(latest semver.Version) (utils.Level) {
@@ -138,7 +138,7 @@ func main() {
 
   shouldTag := requestTag(bumped)
   checkIfError(err)
-   
+
 	if shouldTag {
 		_, err = utils.SetTag(r, bumped.String())
 		checkIfError(err)
