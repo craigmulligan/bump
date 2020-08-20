@@ -14,7 +14,7 @@ import (
 
 func prompt(msg string) (string) {
   reader := bufio.NewReader(os.Stdin)
-  fmt.Println(msg)
+  fmt.Print(msg, ": ")
 
   for {
     text, _ := reader.ReadString('\n')
@@ -32,7 +32,7 @@ func defaultYes(input string) bool {
 func requestTag(latest semver.Version) (bool) {
   msg := fmt.Sprintf("Would you like to tag %s - [Y/n]", latest.String())
   input := strings.ToLower(prompt(msg))
-  return defaultYes(input) 
+  return defaultYes(input)
 }
 
 func requestPush(latest semver.Version) (bool) {
@@ -40,7 +40,7 @@ func requestPush(latest semver.Version) (bool) {
   input := strings.ToLower(prompt(msg))
 
 
-  return defaultYes(input) 
+  return defaultYes(input)
 }
 
 func requestPromote(latest semver.Version) (utils.Level) {
@@ -138,23 +138,20 @@ func main() {
 
   shouldTag := requestTag(bumped)
   checkIfError(err)
-   
+
 	if shouldTag {
 		_, err = utils.SetTag(r, bumped.String())
 		checkIfError(err)
-		fmt.Println(fmt.Sprintf("Tagging version: %s \n", bumped.String()))
-
     shouldPush := requestPush(bumped)
+		fmt.Println(fmt.Sprintf("Tagged version: %s", bumped.String()))
     checkIfError(err)
 
     if (shouldPush) {
-		  fmt.Println(fmt.Sprintf("Pushing version: %s \n", bumped.String()))
+		  fmt.Println(fmt.Sprintf("Pushed version: %s", bumped.String()))
       err = utils.Push(r, bumped.String())
       checkIfError(err)
     }
 	}
 
-	// output the final version to stdout
-	fmt.Println(bumped.String())
 	os.Exit(0)
 }
