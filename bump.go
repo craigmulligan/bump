@@ -14,7 +14,7 @@ import (
 
 func prompt(msg string) (string) {
   reader := bufio.NewReader(os.Stdin)
-  fmt.Println(msg)
+  fmt.Print(msg, ": ")
 
   for {
     text, _ := reader.ReadString('\n')
